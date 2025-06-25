@@ -11,6 +11,8 @@ from langchain_core.output_parsers import StrOutputParser
 
 from prompts.prompt import SYSTEM_PROMPT
 
+# OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+# os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 # 웹사이트 제목
 st.title("OpenAI Chatbot with Memory")
@@ -89,7 +91,6 @@ if len(msgs.messages) == 0:
     with st.chat_message("assistant"):
         welcome_msg = "안녕하세요! 저는 대화 내용을 기억할 수 있는 AI 어시스턴트입니다. 무엇을 도와드릴까요? 😊"
         st.markdown(welcome_msg)
-        msgs.add_ai_message(welcome_msg)
 
 # 대화 내용을 화면에 표시 (StreamlitChatMessageHistory에서)
 for message in msgs.messages:
@@ -143,7 +144,7 @@ st.markdown(
     """
     <div style='text-align: center; color: #666;'>
         <small>
-            🧠 이 챗봇은 대화 내용을 기억합니다. OpenAI API를 사용합니다.
+            대화를 진행해보세요.
         </small>
     </div>
     """,

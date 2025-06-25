@@ -1,16 +1,27 @@
+# Streamlit 웹 앱 프레임워크
 streamlit>=1.28.0
-langchain-openai>=0.1.0
-langchain-core>=0.2.0
-langchain-community>=0.2.0
+
+# 환경변수 관리
 python-dotenv>=1.0.0
-pysqlite3-binary
-langchain
-chromadb
-unstructured
-sentence-transformers
-faiss-cpu
-tiktoken
-openai
-pypdf
-loguru
-docx2txt
+
+# LangChain 관련 패키지
+langchain>=0.1.0
+langchain-core>=0.1.0
+langchain-community>=0.0.13
+langchain-openai>=0.0.5
+
+# OpenAI API
+openai>=1.0.0
+
+# TTS (Text-to-Speech) 관련
+gTTS>=2.3.0
+
+# 오디오 처리
+pydub>=0.25.1
+
+# 오디오 재생 (선택사항 - 로컬에서 직접 재생할 때)
+pygame>=2.5.0
+
+# 기타 유틸리티
+requests>=2.31.0
+numpy>=1.24.0

@@ -91,7 +91,6 @@ if len(msgs.messages) == 0:
     with st.chat_message("assistant"):
         welcome_msg = "안녕하세요! 저는 대화 내용을 기억할 수 있는 AI 어시스턴트입니다. 무엇을 도와드릴까요? 😊"
         st.markdown(welcome_msg)
-        msgs.add_ai_message(welcome_msg)
 
 # 대화 내용을 화면에 표시 (StreamlitChatMessageHistory에서)
 for message in msgs.messages:
