@@ -9,6 +9,9 @@ from langchain_core.runnables.history import RunnableWithMessageHistory
 from langchain_openai import ChatOpenAI
 from langchain_core.output_parsers import StrOutputParser
 
+from prompts.prompt import SYSTEM_PROMPT
+
+
 # 웹사이트 제목
 st.title("OpenAI Chatbot with Memory")
 
@@ -24,9 +27,7 @@ def get_session_history(session_id: str):
 def create_chatbot(model_name="gpt-3.5-turbo", temperature=0.7):
     # 프롬프트 템플릿 설정
     prompt = ChatPromptTemplate.from_messages([
-        ("system", """당신은 친근하고 도움이 되는 AI 어시스턴트입니다. 
-        사용자와의 대화 내용을 잘 기억하고, 이전에 언급된 정보를 활용해서 답변하세요.
-        한국어로 자연스럽고 친근하게 대화하세요."""),
+        ("system", SYSTEM_PROMPT),
         MessagesPlaceholder(variable_name="history"),
         ("human", "{input}")
     ])
@@ -58,7 +59,7 @@ with st.sidebar:
     # 모델 선택
     model_name = st.selectbox(
         "모델 선택",
-        ["gpt-3.5-turbo", "gpt-4o-mini", "gpt-4", "gpt-4-turbo-preview"],
+        ["gpt-4.1-nano", "gpt-4.1-mini", "gpt-4o-mini"],
         index=0
     )
     
@@ -78,7 +79,7 @@ with st.sidebar:
         st.rerun()
     
     st.markdown("---")
-    st.markdown("💡 **메모리 기능:**\n- 대화 내용을 기억합니다\n- 이전에 말한 정보를 참조할 수 있습니다\n- 예: '내 이름은 김현우야' → '내 이름이 뭐야?'")
+    st.markdown("💡 **동물의 숲 '너굴'과 대화해보세요.")
 
 # 채팅 히스토리 가져오기
 msgs = get_chat_history()
@@ -148,10 +149,3 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
-
-# 디버깅용 (선택사항)
-if st.sidebar.checkbox("🔍 디버그 정보 표시"):
-    st.sidebar.write("**저장된 메시지 수:**", len(msgs.messages))
-    st.sidebar.write("**최근 메시지들:**")
-    for i, msg in enumerate(msgs.messages[-3:]):  # 최근 3개만 표시
-        st.sidebar.write(f"{i}: {msg.type} - {msg.content[:50]}...")
