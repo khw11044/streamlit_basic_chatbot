@@ -74,8 +74,10 @@ def generate_nook_voice(text, lang='ko', random_factor=0.35, normal_frame_rate=4
                 else:
                     raw = letter_sound.raw_data
                     
-                octaves = 2.0 + random.random() * random_factor
-                frame_rate = int(letter_sound.frame_rate * (2.0 ** octaves))
+                octaves = 1.5 + random.random() * random_factor
+                # octaves = 1.0 + random.uniform(0, random_factor)
+
+                frame_rate = int(letter_sound.frame_rate * (2.5 ** octaves))
                 new_sound = letter_sound._spawn(raw, overrides={'frame_rate': frame_rate})
                 
             except Exception as e:
