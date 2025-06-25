@@ -22,12 +22,8 @@ from prompts.prompt import PROMPT_DICT
 # r2-d2 스타일 임포트
 from r2d2 import generate_r2d2_voice
 
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
-
 # 웹사이트 제목
-st.title("LLM Chatbot with Sound")
-
+st.title("음성 챗봇")
 
 # 디렉토리 생성
 @st.cache_data

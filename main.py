@@ -81,7 +81,7 @@ with st.sidebar:
         st.rerun()
     
     st.markdown("---")
-    st.markdown("💡 **동물의 숲 '너굴'과 대화해보세요.")
+    st.markdown("💡 **기본 챗봇")
 
 # 채팅 히스토리 가져오기
 msgs = get_chat_history()
