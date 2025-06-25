@@ -11,7 +11,6 @@ from langchain_core.output_parsers import StrOutputParser
 
 # TTS 관련 imports
 from gtts import gTTS
-from pydub import AudioSegment
 import random
 import base64
 import io
@@ -25,8 +24,11 @@ from r2d2 import generate_r2d2_voice
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
+from pydub import AudioSegment
 AudioSegment.converter = "/usr/bin/ffmpeg"
 AudioSegment.ffprobe = "/usr/bin/ffprobe"
+
+print(os.path.exists("/usr/bin/ffmpeg"))
 
 # 웹사이트 제목
 st.title("LLM Chatbot with Sound")
