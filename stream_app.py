@@ -25,6 +25,9 @@ from r2d2 import generate_r2d2_voice
 OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
+AudioSegment.converter = "/usr/bin/ffmpeg"
+AudioSegment.ffprobe = "/usr/bin/ffprobe"
+
 # 웹사이트 제목
 st.title("LLM Chatbot with Sound")
 
