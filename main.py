@@ -30,6 +30,14 @@ from pydub import AudioSegment
 # OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
 # os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
+
+
+st.set_page_config(
+    page_title="LLM Chatbot with Sound",
+    page_icon="🤖",
+    layout="wide",
+)
+
 # 웹사이트 제목
 st.title("LLM Chatbot with Sound")
 
