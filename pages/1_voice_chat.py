@@ -22,10 +22,10 @@ from prompts.prompt import VOICE_LLM_PROMPT
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 st.set_page_config(
-    page_title="음성 채팅하기",
+    page_title="voice_chat",
     page_icon="🎤"
 )
-st.title("음성 채팅하기 (LLM + OpenAI TTS)")
+st.title("voice_chat (LLM + OpenAI TTS)")
 
 
 
