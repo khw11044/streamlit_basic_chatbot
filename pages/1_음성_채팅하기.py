@@ -213,6 +213,17 @@ if user_input := st.chat_input("메시지를 입력하세요..."):
             st.audio(audio_bytes, format="audio/wav")
             audio_file.close()
             os.remove(wav_path)
+            
+            # base64 인코딩
+            audio_base64 = base64.b64encode(audio_bytes).decode()
+            audio_html = f"""
+            <audio autoplay>
+                <source src="data:audio/wav;base64,{audio_base64}" type="audio/wav">
+                브라우저가 audio 태그를 지원하지 않습니다.
+            </audio>
+            """
+            st.markdown(audio_html, unsafe_allow_html=True)
+            
         except Exception as e:
             st.error(f"오류: {e}")
             message_placeholder.markdown("❗ 음성 합성 오류가 발생했습니다.")
