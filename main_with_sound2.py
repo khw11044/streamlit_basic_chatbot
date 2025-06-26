@@ -20,7 +20,7 @@ import io
 from prompts.prompt import PROMPT_DICT
 
 # r2-d2 스타일 임포트
-from r2d2 import generate_r2d2_voice
+from get_r2d2 import generate_r2d2_voice
 
 # 웹사이트 제목
 st.title("음성 챗봇")

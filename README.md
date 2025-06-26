@@ -15,3 +15,8 @@ streamlit 배포시 Advanced settings에서 파이써 버전을 3.11로 설정�
 
 
 [![2025-06-25-15-55-47.png](https://i.postimg.cc/QtPr4g8H/2025-06-25-15-55-47.png)](https://postimg.cc/gXv5rZ6W)
+
+
+
+basic.py는 기본적인 채팅 봇 
+
