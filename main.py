@@ -114,7 +114,7 @@ def get_chat_history():
 def get_session_history(session_id: str):
     return get_chat_history()
 
-# OpenAI 챗봇 설정
+# OpenAI 챗봇 설정 -------------------------------------
 def create_chatbot(model_name="gpt-3.5-turbo", temperature=0.7, voice_style="일반"):
     # 프롬프트 템플릿 설정
     prompt = ChatPromptTemplate.from_messages([
@@ -143,7 +143,7 @@ def create_chatbot(model_name="gpt-3.5-turbo", temperature=0.7, voice_style="일
     
     return with_message_history
 
-# 사이드바 설정
+# 사이드바 설정 --------------------------------------------------
 with st.sidebar:
     st.header("⚙️ 설정")
     
@@ -189,6 +189,8 @@ with st.sidebar:
     st.markdown("💡 **동물의 숲 '너굴'과 스타워즈의 'r2-d2'와 대화해보세요.**")
     st.markdown("🔊 **그리고 직접 들어보세요!**")
 
+# -------------------------------------
+
 # 채팅 히스토리 가져오기
 msgs = get_chat_history()
 
@@ -198,7 +200,7 @@ if len(msgs.messages) == 0:
         welcome_msg = "안녕하세요! 저는 챗봇입니다! 무엇을 도와드릴까요? 😊"
         st.markdown(welcome_msg)
 
-# 대화 내용을 화면에 표시
+# 대화 내용을 화면에 표시 - 히스토리 출력
 for message in msgs.messages:
     with st.chat_message(message.type):
         st.markdown(message.content)
@@ -210,8 +212,11 @@ chatbot = create_chatbot(
     voice_style=voice_style
     )
 
+# ------------------------------------------------------------------------------------------
+
+
 # 사용자 입력 처리
-if prompt := st.chat_input("메시지를 입력하세요..."):
+if user_input := st.chat_input("메시지를 입력하세요..."):
     
     # API 키 확인
     if not os.getenv("OPENAI_API_KEY"):
@@ -220,16 +225,15 @@ if prompt := st.chat_input("메시지를 입력하세요..."):
     
     # 사용자 메시지 표시
     with st.chat_message("user"):
-        st.markdown(prompt)
+        st.markdown(user_input)
 
     # AI 응답 생성 및 표시
     with st.chat_message("assistant"):
         message_placeholder = st.empty()
-        
         try:
             # AI 응답 생성
             response = chatbot.invoke(
-                {"input": prompt},
+                {"input": user_input},
                 config={"configurable": {"session_id": "default"}}
             )
             
