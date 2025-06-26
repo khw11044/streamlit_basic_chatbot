@@ -3,6 +3,8 @@ from dotenv import load_dotenv
 load_dotenv()
 import streamlit as st
 import time
+import re 
+
 from langchain_core.prompts import ChatPromptTemplate, MessagesPlaceholder
 from langchain_community.chat_message_histories import StreamlitChatMessageHistory
 from langchain_core.runnables.history import RunnableWithMessageHistory
@@ -20,15 +22,13 @@ from prompts.prompt import PROMPT_DICT
 
 # r2-d2 스타일 임포트
 from get_r2d2 import generate_r2d2_voice
-
-OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
-os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
-
+from get_edie import generate_edie_voice
 from pydub import AudioSegment
 AudioSegment.converter = "/usr/bin/ffmpeg"
 AudioSegment.ffprobe = "/usr/bin/ffprobe"
 
-print(os.path.exists("/usr/bin/ffmpeg"))
+OPENAI_API_KEY = st.secrets["OPENAI_API_KEY"]
+os.environ["OPENAI_API_KEY"] = OPENAI_API_KEY
 
 # 웹사이트 제목
 st.title("LLM Chatbot with Sound")
@@ -159,7 +159,7 @@ with st.sidebar:
     st.subheader("🔊 음성 설정")
     voice_style = st.radio(
         "음성 스타일",
-        ["일반", "너굴", "r2-d2"],
+        ["일반", "너굴", "r2-d2", "edie"],
         index=0
     )
     enable_voice = st.checkbox("음성 재생", value=True)
@@ -178,7 +178,7 @@ with st.sidebar:
         st.rerun()
     
     st.markdown("---")
-    st.markdown("💡 **동물의 숲 '너굴'과 스타워즈의 'r2-d2'와 대화해보세요. **")
+    st.markdown("💡 **동물의 숲 '너굴'과 스타워즈의 'r2-d2'와 대화해보세요.**")
     st.markdown("🔊 **그리고 직접 들어보세요!**")
 
 # 채팅 히스토리 가져오기
@@ -237,25 +237,39 @@ if prompt := st.chat_input("메시지를 입력하세요..."):
             
             # 음성 생성 및 재생
             if enable_voice and response.strip():
+                # 감정 표현 제거 (감정은 항상 가로안에 표현되며 표현할 수 있는 감정은 'positive', 'negative', 'neutral')
+                match = re.search(r"^\(([^)]+)\)", response)
+                emotion = match.group(1) if match else "neutral"  # 못 찾으면 기본값
+                
+
+                # 괄호 제거한 텍스트
+                cleaned_response = re.sub(r"^\([^)]+\)\s*", "", response).strip()
+                
                 with st.spinner(f"{voice_style} 목소리 생성 중..."):
                     try:
                         if voice_style == "일반":
-                            tts = gTTS(response, lang='ko')
+                            tts = gTTS(cleaned_response, lang='ko')
                             tts_fp = io.BytesIO()
                             tts.write_to_fp(tts_fp)
                             tts_fp.seek(0)
                             audio_seg = AudioSegment.from_file(tts_fp, format="mp3")
                         elif voice_style == "너굴":
                             audio_seg = generate_nook_voice(
-                                response, 
+                                cleaned_response, 
                                 random_factor=voice_random_factor
                             )
-                        else:  # r2-d2
+                        elif voice_style == "r2-d2":
                             base_dir = os.path.dirname(__file__)
                             audio_seg = generate_r2d2_voice(
-                                response,
+                                cleaned_response,
                                 base_dir
                             )
+                        elif voice_style == "edie":
+                            audio_seg = generate_edie_voice(
+                                cleaned_response,
+                                emotion
+                            )
+                            
                         if audio_seg:
                             audio_base64 = audio_to_base64(audio_seg)
                             audio_html = f"""
